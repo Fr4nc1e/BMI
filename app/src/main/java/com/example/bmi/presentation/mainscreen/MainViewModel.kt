@@ -25,6 +25,8 @@ class MainViewModel @Inject constructor(
     val weightState: State<MainScreenState> = _weightState
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+    private val _showDialogState = mutableStateOf(false)
+    val showDialogState: State<Boolean> = _showDialogState
 
     init {
         _heightState.value = _heightState.value.copy(
@@ -52,6 +54,9 @@ class MainViewModel @Inject constructor(
             }
             MainScreenEvent.Report -> {
                 validation()
+            }
+            MainScreenEvent.ShowDialog -> {
+                _showDialogState.value = !showDialogState.value
             }
         }
     }
