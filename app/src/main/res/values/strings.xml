@@ -12,4 +12,6 @@
     <string name="about_button">About BMI</string>
     <string name="about_msg">BMI = Body Mass Index = height(m) / weight(kg) ^ 2; BMI between 20
 to 25 is fit.</string>
+    <string name="bmi_wiki">BMI Wiki</string>
+    <string name="exit">Exit</string>
 </resources>
