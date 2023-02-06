@@ -6,14 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import com.example.bmi.R
 import com.example.bmi.presentation.destinations.ReportScreenDestination
 import com.example.bmi.presentation.mainscreen.MainScreenEvent
@@ -52,25 +47,54 @@ fun PortraitContent(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.icon_128),
-                contentDescription = null,
+            Box(
                 modifier = Modifier
+                    .wrapContentSize()
                     .align(Alignment.CenterHorizontally)
-                    .width(140.dp)
-                    .height(140.dp)
-                    .padding(
-                        start = 8.dp,
-                        end = 8.dp,
-                        top = 16.dp
-                    )
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            showContextMenu.value = true
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.icon_128),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .width(140.dp)
+                        .height(140.dp)
+                        .padding(
+                            start = 8.dp,
+                            end = 8.dp,
+                            top = 16.dp
+                        )
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                showContextMenu.value = true
+                            }
+                        )
+                )
+                DropdownMenu(
+                    expanded = showContextMenu.value,
+                    onDismissRequest = { showContextMenu.value = false }
+                ) {
+                    DropdownMenuItem(onClick = { viewModel.onEvent(MainScreenEvent.ShowDialog) }) {
+                        Text(
+                            text = stringResource(id = R.string.about_button),
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                    DropdownMenuItem(
+                        onClick = {
+                            val uri =
+                                Uri.parse("http://en.wikipedia.org/wiki/Body_mass_index")
+                            val intents = Intent(Intent.ACTION_VIEW, uri)
+                            context.startActivity(intents)
                         }
-                    )
-            )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.bmi_wiki),
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
+            }
 
             Text(
                 text = stringResource(id = R.string.bmi_height),
@@ -158,35 +182,6 @@ fun PortraitContent(
                 )
             ) {
                 Text(text = stringResource(id = R.string.about_button))
-            }
-        }
-
-        if (showContextMenu.value) {
-            Dialog(
-                onDismissRequest = { showContextMenu.value = false }
-            ) {
-                Card {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = stringResource(id = R.string.about_button),
-                            modifier = Modifier.padding(8.dp)
-                                .clickable {
-                                    viewModel.onEvent(MainScreenEvent.ShowDialog)
-                                }
-                        )
-                        Text(
-                            text = stringResource(id = R.string.bmi_wiki),
-                            modifier = Modifier.padding(8.dp)
-                                .clickable {
-                                    val uri = Uri.parse("http://en.wikipedia.org/wiki/Body_mass_index")
-                                    val intents = Intent(Intent.ACTION_VIEW, uri)
-                                    context.startActivity(intents)
-                                }
-                        )
-                    }
-                }
             }
         }
     }
