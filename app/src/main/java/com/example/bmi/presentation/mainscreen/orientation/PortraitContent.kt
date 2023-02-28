@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package com.example.bmi.presentation.mainscreen.orientation
 
 import android.content.Intent
@@ -22,13 +20,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bmi.R
+import com.example.bmi.presentation.component.MyData
+import com.example.bmi.presentation.component.SpinnerSample
 import com.example.bmi.presentation.destinations.ReportScreenDestination
 import com.example.bmi.presentation.mainscreen.MainScreenEvent
 import com.example.bmi.presentation.mainscreen.MainScreenState
 import com.example.bmi.presentation.mainscreen.MainViewModel
-import com.example.bmi.presentation.util.DataValidator
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PortraitContent(
     height: MainScreenState,
@@ -44,6 +44,15 @@ fun PortraitContent(
             mutableStateOf(false)
         }
         val context = LocalContext.current
+        val feetData = ArrayList<MyData>()
+        val inchData = ArrayList<MyData>()
+        context.resources.getStringArray(R.array.feet).forEachIndexed { index, s ->
+            feetData.add(MyData(index, s))
+        }
+        context.resources.getStringArray(R.array.inches).forEachIndexed { index, s ->
+            inchData.add(MyData(index, s))
+        }
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -106,20 +115,20 @@ fun PortraitContent(
                     )
             )
 
-            TextField(
-                value = height.inputText,
-                onValueChange = {
-                    if (it.length < 10) {
-                        viewModel.onEvent(MainScreenEvent.EnterHeight(it))
-                    }
-                },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = 16.dp,
-                        end = 8.dp
-                    )
+            SpinnerSample(
+                list = feetData,
+                preselected = feetData.first(),
+                onSelectionChanged = {
+                    viewModel.onEvent(MainScreenEvent.EnterFeet((it.id + 1).toString()))
+                }
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            SpinnerSample(
+                list = inchData,
+                preselected = inchData.first(),
+                onSelectionChanged = {
+                    viewModel.onEvent(MainScreenEvent.EnterInch(it.id.toString()))
+                }
             )
 
             Text(
@@ -151,18 +160,20 @@ fun PortraitContent(
             Button(
                 onClick = {
                     viewModel.onEvent(MainScreenEvent.Report)
-                    if (DataValidator.validate(
-                            height = height.inputText,
+                    navigator.navigate(
+                        ReportScreenDestination(
+                            feet = viewModel.feetState.value,
+                            inch = viewModel.inchState.value,
                             weight = weight.inputText
                         )
-                    ) {
-                        navigator.navigate(
-                            ReportScreenDestination(
-                                height = height.inputText,
-                                weight = weight.inputText
-                            )
-                        )
-                    }
+                    )
+//                    if (DataValidator.validate(
+//                            height = height.inputText,
+//                            weight = weight.inputText
+//                        )
+//                    ) {
+//
+//                    }
                 },
                 modifier = Modifier.padding(
                     start = 16.dp,

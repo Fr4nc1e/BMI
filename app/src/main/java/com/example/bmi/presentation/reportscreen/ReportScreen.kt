@@ -5,15 +5,18 @@ import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.platform.LocalConfiguration
 import com.example.bmi.presentation.reportscreen.orientation.LandscapeReport
 import com.example.bmi.presentation.reportscreen.orientation.PortraitReport
+import com.example.bmi.presentation.util.BMICalculator
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination
 @Composable
 fun ReportScreen(
-    height: String,
+    feet: String,
+    inch: String,
     weight: String
 ) {
-    val state = BMICalculator.calculateBMI(height = height, weight = weight)
+//    val state = BMICalculator.calculateBMI(height = height, weight = weight)
+    val state = BMICalculator.calculateBMIv2(feet = feet, inch = inch, weight = weight)
     var orientation by remember { mutableStateOf(Configuration.ORIENTATION_PORTRAIT) }
     val configuration = LocalConfiguration.current
 

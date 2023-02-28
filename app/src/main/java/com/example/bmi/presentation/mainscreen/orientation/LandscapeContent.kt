@@ -1,7 +1,14 @@
 package com.example.bmi.presentation.mainscreen.orientation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -14,7 +21,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bmi.R
-import com.example.bmi.presentation.destinations.ReportScreenDestination
 import com.example.bmi.presentation.mainscreen.MainScreenEvent
 import com.example.bmi.presentation.mainscreen.MainScreenState
 import com.example.bmi.presentation.mainscreen.MainViewModel
@@ -109,12 +115,12 @@ fun LandscapeContent(
                                 weight = weight.inputText
                             )
                         ) {
-                            navigator.navigate(
-                                ReportScreenDestination(
-                                    height = height.inputText,
-                                    weight = weight.inputText
-                                )
-                            )
+//                            navigator.navigate(
+//                                ReportScreenDestination(
+//                                    feet = ,
+//                                    weight = weight.inputText
+//                                )
+//                            )
                         }
                     },
                     modifier = Modifier.padding(

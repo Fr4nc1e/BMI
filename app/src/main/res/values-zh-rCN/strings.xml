@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BMI</string>
-    <string name="bmi_height">身高 (cm)</string>
-    <string name="bmi_weight">体重 (kg)</string>
+    <string name="bmi_height">身高</string>
+    <string name="bmi_weight">体重 (lb)</string>
     <string name="bmi_btn">参阅报告</string>
     <string name="bmi_result">您的BMI值为</string>
     <string name="bmi_warning">身高/体重不能为0</string>
@@ -14,4 +14,29 @@
     <string name="about_msg">BMI = 身高体重指数 = 身高(m) / 体重(kg) ^ 2；BMI在20到25之间是标准的。</string>
     <string name="bmi_wiki">BMI 维基</string>
     <string name="exit">退出</string>
+
+    <string-array name="feet">
+        <item>1 Foot</item>
+        <item>2 Feet</item>
+        <item>3 Feet</item>
+        <item>4 Feet</item>
+        <item>5 Feet</item>
+        <item>6 Feet</item>
+        <item>7 Feet</item>
+        <item>8 Feet</item>
+    </string-array>
+    <string-array name="inches">
+        <item>0 Inch</item>
+        <item>1 Inch</item>
+        <item>2 Inches</item>
+        <item>3 Inches</item>
+        <item>4 Inches</item>
+        <item>5 Inches</item>
+        <item>6 Inches</item>
+        <item>7 Inches</item>
+        <item>8 Inches</item>
+        <item>9 Inches</item>
+        <item>10 Inches</item>
+        <item>11 Inches</item>
+    </string-array>
 </resources>

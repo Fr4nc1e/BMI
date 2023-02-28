@@ -9,10 +9,10 @@ import com.example.bmi.R
 import com.example.bmi.presentation.component.UiEvent
 import com.example.bmi.presentation.util.DataValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -21,6 +21,10 @@ class MainViewModel @Inject constructor(
 
     private val _heightState = mutableStateOf(MainScreenState())
     val heightState: State<MainScreenState> = _heightState
+    private val _feetState = mutableStateOf("")
+    val feetState: State<String> = _feetState
+    private val _inchState = mutableStateOf("")
+    val inchState: State<String> = _inchState
     private val _weightState = mutableStateOf(MainScreenState())
     val weightState: State<MainScreenState> = _weightState
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -57,6 +61,13 @@ class MainViewModel @Inject constructor(
             }
             MainScreenEvent.ShowDialog -> {
                 _showDialogState.value = !showDialogState.value
+            }
+
+            is MainScreenEvent.EnterFeet -> {
+                _feetState.value = event.feet
+            }
+            is MainScreenEvent.EnterInch -> {
+                _inchState.value = event.inch
             }
         }
     }
