@@ -53,6 +53,9 @@ fun PortraitContent(
             inchData.add(MyData(index, s))
         }
 
+        val feet = viewModel.feetState.value
+        val inch = viewModel.inchState.value
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -117,7 +120,15 @@ fun PortraitContent(
 
             SpinnerSample(
                 list = feetData,
-                preselected = feetData.first(),
+                preselected = if (feet != "0") {
+                    var i = 0
+                    feetData.forEachIndexed { index, myData ->
+                        i = if (myData.name == feet) index else 0
+                    }
+                    MyData(i, feet)
+                } else {
+                    feetData.first()
+                },
                 onSelectionChanged = {
                     viewModel.onEvent(MainScreenEvent.EnterFeet((it.id + 1).toString()))
                 }
@@ -125,7 +136,15 @@ fun PortraitContent(
             Spacer(modifier = Modifier.height(5.dp))
             SpinnerSample(
                 list = inchData,
-                preselected = inchData.first(),
+                preselected = if (inch != "0") {
+                    var i = 0
+                    inchData.forEachIndexed { index, myData ->
+                        i = if (myData.name == inch) index else 0
+                    }
+                    MyData(i, inch)
+                } else {
+                    inchData.first()
+                },
                 onSelectionChanged = {
                     viewModel.onEvent(MainScreenEvent.EnterInch(it.id.toString()))
                 }
@@ -160,6 +179,7 @@ fun PortraitContent(
             Button(
                 onClick = {
                     viewModel.onEvent(MainScreenEvent.Report)
+
                     navigator.navigate(
                         ReportScreenDestination(
                             feet = viewModel.feetState.value,
@@ -167,13 +187,6 @@ fun PortraitContent(
                             weight = weight.inputText
                         )
                     )
-//                    if (DataValidator.validate(
-//                            height = height.inputText,
-//                            weight = weight.inputText
-//                        )
-//                    ) {
-//
-//                    }
                 },
                 modifier = Modifier.padding(
                     start = 16.dp,

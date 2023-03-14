@@ -4,15 +4,11 @@ import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.bmi.R
 import com.example.bmi.presentation.component.UiEvent
-import com.example.bmi.presentation.util.DataValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -40,6 +36,10 @@ class MainViewModel @Inject constructor(
         _weightState.value = _weightState.value.copy(
             inputText = sharedPreferences.getString("weight", "0")!!
         )
+
+        _feetState.value = sharedPreferences.getString("feet", "0")!!
+
+        _inchState.value = sharedPreferences.getString("inch", "0")!!
     }
 
     fun onEvent(
@@ -73,21 +73,24 @@ class MainViewModel @Inject constructor(
     }
 
     private fun validation() {
-        if (!DataValidator.validate(
-                height = heightState.value.inputText,
-                weight = weightState.value.inputText
-            )
-        ) {
-            viewModelScope.launch {
-                _eventFlow.emit(
-                    UiEvent.SnackBarEvent(R.string.bmi_warning)
-                )
-            }
-        } else {
-            sharedPreferences.edit()
-                .putString("height", heightState.value.inputText).apply()
-            sharedPreferences.edit()
-                .putString("weight", weightState.value.inputText).apply()
-        }
+//        if (!DataValidator.validate(
+//                height = heightState.value.inputText,
+//                weight = weightState.value.inputText
+//            )
+//        ) {
+//            viewModelScope.launch {
+//                _eventFlow.emit(
+//                    UiEvent.SnackBarEvent(R.string.bmi_warning)
+//                )
+//            }
+//        } else {
+//            sharedPreferences.edit()
+//                .putString("height", heightState.value.inputText).apply()
+//            sharedPreferences.edit()
+//                .putString("weight", weightState.value.inputText).apply()
+//        }
+        sharedPreferences.edit().putString("weight", _weightState.value.inputText).apply()
+        sharedPreferences.edit().putString("feet", _feetState.value).apply()
+        sharedPreferences.edit().putString("inch", _inchState.value).apply()
     }
 }
